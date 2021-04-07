@@ -1,0 +1,16 @@
+{
+    "name": "Đèn LED 7 đoạn cho Yolo:Bit",
+    "description": "Mục mở rộng cho đèn LED 7 đoạn sử dụng IC TM1637 Decimal",
+    "libs": [
+        "tm1637.py"
+    ],
+    "blocks": [
+        "definition.js"
+    ],
+    "toolbox": "toolbox.xml",
+    "languages": {
+        "en": "languages/en.js",
+        "vi": "languages/vi.js"
+    },
+    "poster": "poster.jpg"
+}
