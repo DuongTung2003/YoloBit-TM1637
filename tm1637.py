@@ -27,6 +27,7 @@ SOFTWARE.
 from micropython import const
 from machine import Pin
 from time import sleep_us, sleep_ms
+from yolobit import *
 
 TM1637_CMD1 = const(64)  # 0x40 data command
 TM1637_CMD2 = const(192) # 0xC0 address command
@@ -40,31 +41,30 @@ _SEGMENTS = bytearray(b'\x3F\x06\x5B\x4F\x66\x6D\x7D\x07\x7F\x6F\x77\x7C\x39\x5E
 
 class TM1637(object):
     """Library for quad 7-segment LED modules based on the TM1637 LED driver."""
-    def __init__(self, clk, dio, brightness=7):
-        self.clk = Pin(clk,mode = Pin.OUT,pull=None)
-        self.dio = Pin(dio,mode = Pin.OUT,pull=None)
+    def __init__(self, clk, dio, Testpin , brightness=7):
+        self.clk = clk
+        self.dio = dio
         print("Started")
         if not 0 <= brightness <= 7:
             raise ValueError("Brightness out of range")
         self._brightness = brightness
-
+        
         sleep_us(TM1637_DELAY)
-
         self._write_data_cmd()
         self._write_dsp_ctrl()
 
     def _start(self):
-        self.dio.value(0)
+        self.dio.write_digital(0)
         sleep_us(TM1637_DELAY)
-        self.clk.value(0)
+        self.clk.write_digital(0)
         sleep_us(TM1637_DELAY)
 
     def _stop(self):
-        self.dio.value(0)
+        self.dio.write_digital(0)
         sleep_us(TM1637_DELAY)
-        self.clk.value(1)
+        self.clk.write_digital(1)
         sleep_us(TM1637_DELAY)
-        self.dio.value(1)
+        self.dio.write_digital(1)
 
     def _write_data_cmd(self):
         # automatic address increment, normal mode
@@ -80,17 +80,17 @@ class TM1637(object):
 
     def _write_byte(self, b):
         for i in range(8):
-            self.dio.value((b >> i) & 1)
+            self.dio.write_digital((b >> i) & 1)
             sleep_us(TM1637_DELAY)
-            self.clk.value(1)
+            self.clk.write_digital(1)
             sleep_us(TM1637_DELAY)
-            self.clk(0)
+            self.clk.write_digital(0)
             sleep_us(TM1637_DELAY)
-        self.clk.value(0)
+        self.clk.write_digital(0)
         sleep_us(TM1637_DELAY)
-        self.clk.value(1)
+        self.clk.write_digital(1)
         sleep_us(TM1637_DELAY)
-        self.clk.value(0)
+        self.clk.write_digital(0)
         sleep_us(TM1637_DELAY)
 
     def brightness(self, val=None):
