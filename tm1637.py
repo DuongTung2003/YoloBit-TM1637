@@ -43,13 +43,11 @@ class TM1637(object):
     def __init__(self, clk, dio, brightness=7):
         self.clk = Pin(clk,mode = Pin.OUT,pull=None)
         self.dio = Pin(dio,mode = Pin.OUT,pull=None)
-
+        print("Started")
         if not 0 <= brightness <= 7:
             raise ValueError("Brightness out of range")
         self._brightness = brightness
 
-        #self.clk.init(Pin.OUT, value=0)
-        #self.dio.init(Pin.OUT, value=0)
         sleep_us(TM1637_DELAY)
 
         self._write_data_cmd()
