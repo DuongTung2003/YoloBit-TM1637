@@ -41,7 +41,7 @@ _SEGMENTS = bytearray(b'\x3F\x06\x5B\x4F\x66\x6D\x7D\x07\x7F\x6F\x77\x7C\x39\x5E
 
 class TM1637(object):
     """Library for quad 7-segment LED modules based on the TM1637 LED driver."""
-    def __init__(self, clk, dio, Testpin , brightness=7):
+    def __init__(self, clk, dio , brightness=7):
         self.clk = clk
         self.dio = dio
         print("Started")
